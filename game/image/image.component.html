@@ -1,0 +1,4 @@
+<div class="image-container" [style.border.color]="isMatched ? 'green' : 'red' " (dragstart)="onDragStart($event)"
+    draggable="true">
+    <img [src]="imagePath" alt="Image">
+</div>

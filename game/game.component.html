@@ -1,0 +1,84 @@
+<div class="wrapper">
+    <app-header-sidebar></app-header-sidebar>
+    <div class="content-wrapper" style="position: relative;">
+        <section class="content" *ngIf="showEntryForm">
+            <div class="container-fluid">
+                <div class="row justify-content-center" style="padding-top: 10vh;">
+                    <div class="col-md-8">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Match Image</h3>
+                            </div>
+                            <form [formGroup]="TeamEntryForm" (ngSubmit)="onSubmit()">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="exampleInputTeamName">Team</label>
+                                        <input type="text" class="form-control" id="exampleInputTeamName"
+                                            placeholder="Enter name of your team" formControlName="Team"
+                                            autocomplete="username">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Pin</label>
+                                        <input type="password" class="form-control" id="exampleInputPassword1"
+                                            placeholder="Pin" formControlName="Pin" autocomplete="current-password">
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <Section *ngIf="showGame">
+            <div class="ImagesAndScore">
+                <div id="div1" (drop)="drop($event)" (dragover)="allowDrop($event)">
+                    <div class="image-box">
+                        <img [src]="'assets/dist/GameImage/OldImages/'+randomImage" class="image" draggable="false">
+                    </div>
+                    <div class="matching-image-box" [ngClass]="{'matched': isMatched, 'not-matched': !isMatched}">
+                        <!-- <span class="drop-text" *ngIf="!dropedImage">Drag image from below</span> -->
+                    </div>
+                </div>
+                <div class="ScoreAndAttempt">
+                    <div class="Result fontMedium"><b>Result:</b>{{result}}</div>
+                    <div class="score fontMedium"><b>Score:</b>{{score}}</div>
+                    <div class="Attempt fontMedium"><b>Attempt:</b>{{attempt}}</div>
+                    <div class="TimeLeft fontMedium"><b>Time Left:&nbsp;</b><span
+                            style="color: red;">{{countdownValue}}</span></div>
+                    <div class="Attempt fontMedium"><b>Total Attempts:</b>10</div>
+                </div>
+            </div>
+            <br>
+            <div class="image-collection">
+                <img *ngFor="let image of folder_CurrentImages; let i = index"
+                    [src]="'assets/dist/GameImage/CurrentImages/'+image" draggable="true" (dragstart)="drag($event, i)"
+                    [attr.data-index]="i">
+            </div>
+            <div *ngIf="isGameOver" class="game-over-overlay modal" role="dialog" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content" style="border: 5px solid #005799;">
+                        <div class="modal-header" style="display: flex;">
+                            <h1 class="modal-title" id="exampleModalCenterTitle">Game Over</h1>
+                            <button type="button" class="close" (click)="restartGame()" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2>User = {{userName}}</h2>
+                            <h2>Score = {{score}}</h2>
+                            <h2>Time = {{timeStamp}}</h2>
+                        </div>
+                        <div class="modal-footer">
+                            <button routerLink="/App/Dashboard" type="button" class="btn btn-primary">Home</button>
+                            <button type="button" class="btn btn-primary" (click)="restartGame()">Restart
+                                Game</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Section>
+    </div>
+</div>
